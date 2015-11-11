@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alertsense.Azure.Lumberjack", "Alertsense.Azure.Lumberjack\Alertsense.Azure.Lumberjack.csproj", "{64D119AD-BB9A-4755-913F-D286826883B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{3361EE6D-44EF-46D5-BADB-9B6C9564FAC8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5B25AC4C-6955-4121-A007-B5FBDA03B0D7}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1 = PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{397C444A-8428-4B4B-B605-28AF986FB82B}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Templates\AlertsenseAzureLumberjack.json = PublishScripts\Templates\AlertsenseAzureLumberjack.json
+		PublishScripts\Templates\AlertsenseAzureLumberjack.param.dev.json = PublishScripts\Templates\AlertsenseAzureLumberjack.param.dev.json
+	EndProjectSection
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AlertSense.Azure.Lumberjack.Database", "AlertSense.Azure.Lumberjack.Database\AlertSense.Azure.Lumberjack.Database.sqlproj", "{62B1D155-1B5B-4135-9F03-734F0F0F90E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlertSense.Azure.Lumberjack.Data", "AlertSense.Azure.Lumberjack.Data\AlertSense.Azure.Lumberjack.Data.csproj", "{496EA42F-F96F-4540-B012-F8AE63AB669B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlertSense.Azure.Lumberjack.Contracts", "AlertSense.Azure.Lumberjack.Contracts\AlertSense.Azure.Lumberjack.Contracts.csproj", "{214BD5D8-B512-4096-AC28-D64AC5A012CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlertSense.Azure.Lumberjack.Services", "AlertSense.Azure.Lumberjack.Services\AlertSense.Azure.Lumberjack.Services.csproj", "{F14B13D2-751C-4437-B273-732C25FE3F07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64D119AD-BB9A-4755-913F-D286826883B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D119AD-BB9A-4755-913F-D286826883B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D119AD-BB9A-4755-913F-D286826883B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D119AD-BB9A-4755-913F-D286826883B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B1D155-1B5B-4135-9F03-734F0F0F90E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B1D155-1B5B-4135-9F03-734F0F0F90E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B1D155-1B5B-4135-9F03-734F0F0F90E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{62B1D155-1B5B-4135-9F03-734F0F0F90E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B1D155-1B5B-4135-9F03-734F0F0F90E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B1D155-1B5B-4135-9F03-734F0F0F90E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{496EA42F-F96F-4540-B012-F8AE63AB669B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{496EA42F-F96F-4540-B012-F8AE63AB669B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496EA42F-F96F-4540-B012-F8AE63AB669B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{496EA42F-F96F-4540-B012-F8AE63AB669B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214BD5D8-B512-4096-AC28-D64AC5A012CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214BD5D8-B512-4096-AC28-D64AC5A012CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214BD5D8-B512-4096-AC28-D64AC5A012CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214BD5D8-B512-4096-AC28-D64AC5A012CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14B13D2-751C-4437-B273-732C25FE3F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14B13D2-751C-4437-B273-732C25FE3F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14B13D2-751C-4437-B273-732C25FE3F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14B13D2-751C-4437-B273-732C25FE3F07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5B25AC4C-6955-4121-A007-B5FBDA03B0D7} = {3361EE6D-44EF-46D5-BADB-9B6C9564FAC8}
+		{397C444A-8428-4B4B-B605-28AF986FB82B} = {3361EE6D-44EF-46D5-BADB-9B6C9564FAC8}
+	EndGlobalSection
+EndGlobal

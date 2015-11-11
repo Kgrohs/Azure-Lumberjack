@@ -1,0 +1,38 @@
+﻿@using ServiceStack
+@model Alertsense.Azure.Lumberjack.Models.LogViewerViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<link href="@Url.Content("~/Content/LogViewer.css")" rel="stylesheet" type="text/css" />
+<form>
+    @foreach (var item in Model.ConnectionList)
+    {
+        @Html.Label(item)
+        <input name="@item" type="checkbox" value="@Request[item]" />
+    }
+    <input type="submit" value="Filter" />
+</form>
+<table>
+    <tr>
+        <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Source) </th>
+        <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Date) </th>
+        <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Message) </th>
+    </tr>
+    @foreach (var m in Model.Logs)
+    {
+        <tr>
+            <td>@m.Source</td>
+            <td>@m.Date</td>
+            <td>
+                <pre>@m.Message</pre>
+                @if (!m.Exception.IsNullOrEmpty())
+                {
+                    <div>
+                        Exception:
+                        <pre>@m.Exception</pre>
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+</table>

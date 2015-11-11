@@ -1,0 +1,32 @@
+{
+  "siteName": {
+    "value": "Lumberjack"
+  },
+  "hostingPlanName": {
+    "value": "StandardWeb"
+  },
+  "siteLocation": {
+    "value": "West US"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "serverName": {
+    "value": "logging-azure-db"
+  },
+  "serverLocation": {
+    "value": "West US"
+  },
+  "administratorLogin": {
+    "value": "kmangrohs"
+  },
+  "administratorLoginPassword": {
+    "value": "Canada123"
+  },
+  "databaseName": {
+    "value": "Lumberjack_db"
+  }
+}
