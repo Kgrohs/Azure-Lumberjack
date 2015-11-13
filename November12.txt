@@ -1,0 +1,20 @@
+November 12th Objectives from Proposal:
+
+Add additional Log Sources (Not Database)
+Add Endpoints: Email logs, SQL logs 
+Determine if they belong in the same table, or how to organize all of this data on the page.
+Display all information on the page
+make it look nice. 
+Add ability to select log entry/entries and maybe view their information in more detail.
+
+What I actually got done:
+
+What I actually did is switch to Azure (which is making the server management basically none existent), which allowed me
+to actually focus on coding, I've wasted so much development time on server configuration. I used the same user template, but
+the app doesn't currently do anything with the users. My stretch goal outlines what users would be useful for.
+
+I'm currently pulling Log data from two different sources and sorting the content based on date. I'm adding context to the
+Log entries as to which connection they are coming from. Having more than one connection has proven quite tricky.. my current
+implementation seems inefficient but I don't believe that the app is too slow.. yet. My next goal (which might be done by the 
+time you grade this) is adding more filtering to the log entries, some drop downs, some text box search. Once I've conquered that
+I'll move on to adding an additional data source other than a database with a very specific table schema.

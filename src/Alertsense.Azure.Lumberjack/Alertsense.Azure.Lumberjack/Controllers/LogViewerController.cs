@@ -16,23 +16,24 @@ namespace Alertsense.Azure.Lumberjack.Controllers
     {
         readonly ILog _log = LogManager.GetLogger(typeof(LogViewerController));
 
-        private ILogViewerManager _logViewerManager;
-        public ILogViewerManager LogViewerManager
-        {
-            get
-            {
-                return _logViewerManager ?? (_logViewerManager = LogViewerManagerFactory.CreateManager());
-            }
-            set { _logViewerManager = value; }
-        }
+        //TODO 
+        //private ILogViewerManager _logViewerManager;
+        //public ILogViewerManager LogViewerManager
+        //{
+        //    get
+        //    {
+        //        return _logViewerManager ?? (_logViewerManager = LogViewerManagerFactory.CreateManager());
+        //    }
+        //    set { _logViewerManager = value; }
+        //}
 
         //TODO: add which select list items are chosen to model for GET/POST request  (GET would allow someone to send a link to coworker and get same data..)
 
-        public ActionResult Index(bool lumberjack = false, bool justBlogging = false)
+        public ActionResult Index(string lumberjack = null, string justBlogging = null)
         {
             var selectedConnections = new List<string>();
-            if (lumberjack) selectedConnections.Add("Lumberjack");
-            if (justBlogging) selectedConnections.Add("JustBlogging");
+            if (lumberjack != null && (lumberjack.ToLowerInvariant() == "on" || lumberjack.ToLowerInvariant() == "true")) selectedConnections.Add("Lumberjack");
+            if (justBlogging != null && (justBlogging.ToLowerInvariant() == "on" || justBlogging.ToLowerInvariant() == "true")) selectedConnections.Add("JustBlogging");
 
             var connectionList = new List<string>();
             connectionList.AddRange(MvcApplication.ConnectionList.Select(pair => pair.Key));
@@ -46,7 +47,7 @@ namespace Alertsense.Azure.Lumberjack.Controllers
                 var logViewerManager = LogViewerManagerFactory.CreateManager(null, null, connMap);
                 {
                     //TODO: add information about which connMap the data belongs to to the list of allLogs..
-                    allLogs.AddRange(logViewerManager.GetAllLogs(tableName, connMap));
+                    allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
                 }
             }
             return View(new LogViewerViewModel

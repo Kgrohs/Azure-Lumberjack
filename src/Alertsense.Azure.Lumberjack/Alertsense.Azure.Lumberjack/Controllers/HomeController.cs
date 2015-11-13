@@ -10,19 +10,19 @@ namespace Alertsense.Azure.Lumberjack.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index","LogViewer");
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "This ain't about you...";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "657-5309.";
 
             return View();
         }

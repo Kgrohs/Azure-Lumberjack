@@ -1,3 +1,12 @@
 ﻿table, th, td {
    border: 1px solid black;
 }
+
+.endpoint {
+    font-weight: bolder;
+    font-size: x-large;
+}
+
+.space-below{
+    margin-bottom: 10px;
+}

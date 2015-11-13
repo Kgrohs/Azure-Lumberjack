@@ -3,14 +3,18 @@
 @{
     ViewBag.Title = "Index";
 }
-<link href="@Url.Content("~/Content/LogViewer.css")" rel="stylesheet" type="text/css" />
-<form>
+<link href="@Url.Content("~/Content/LogViewer.css")" rel="stylesheet" type="text/css"/>
+<div class="endpoint text-center">Endpoints:</div>
+<form class="text-center">
     @foreach (var item in Model.ConnectionList)
     {
-        @Html.Label(item)
-        <input name="@item" type="checkbox" value="@Request[item]" />
+        var checkMe = String.IsNullOrEmpty(Request[item]) ? "" : "checked";
+        <div>
+            @Html.Label(item)
+            <input name="@item" type="checkbox" @checkMe />
+        </div>
     }
-    <input type="submit" value="Filter" />
+    <div class="space-below"><input type="submit" value="Filter" /></div>
 </form>
 <table>
     <tr>
@@ -24,7 +28,10 @@
             <td>@m.Source</td>
             <td>@m.Date</td>
             <td>
-                <pre>@m.Message</pre>
+                <div>
+                    Message:
+                    <pre>@m.Message</pre>
+                </div>
                 @if (!m.Exception.IsNullOrEmpty())
                 {
                     <div>
