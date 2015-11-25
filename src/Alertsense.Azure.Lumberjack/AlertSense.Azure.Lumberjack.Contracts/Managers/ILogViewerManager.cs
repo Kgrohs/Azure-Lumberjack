@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace AlertSense.Azure.Lumberjack.Contracts.Managers
     public interface ILogViewerManager
     {
         IEnumerable<AdoNetLog> GetAllLogs();
+        IEnumerable GetLogLevelList();
+        IEnumerable<string> GetDistinctLoggersList(string tableName);
     }
 }

@@ -11,5 +11,6 @@ namespace AlertSense.Azure.Lumberjack.Contracts.Repositories
 
         IEnumerable<AdoNetLog> GetAllLogs();
         IEnumerable<SourcedAdoNetLog> GetAllLogs(string tableName, string connMap);
+        IEnumerable<string> GetDistinctLoggersList(string tableName);
     }
 }

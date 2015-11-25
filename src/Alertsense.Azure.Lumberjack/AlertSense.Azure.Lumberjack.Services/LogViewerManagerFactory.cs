@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -65,6 +66,26 @@ namespace AlertSense.Azure.Lumberjack.Services
         public IEnumerable<SourcedAdoNetLog> GetAllLogs(string tableName, string connMap)
         {
             var logs = LogViewerRepo.GetAllLogs(tableName, connMap);
+            return logs;
+        }
+
+        public  IEnumerable GetLogLevelList()
+        {
+            var list = Enum.GetNames(typeof(Level)).ToList();
+            return list;
+        }
+        private enum Level
+        {
+            Debug = 5,
+            Info = 4,
+            Warn = 3,
+            Error = 2,
+            Fatal = 1,
+        }
+
+        public IEnumerable<string> GetDistinctLoggersList(string tableName)
+        {
+            var logs = LogViewerRepo.GetDistinctLoggersList(tableName);
             return logs;
         }
     }

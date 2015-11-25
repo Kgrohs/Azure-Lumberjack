@@ -15,29 +15,26 @@ namespace Alertsense.Azure.Lumberjack.Controllers
     public class LogViewerController : Controller
     {
         readonly ILog _log = LogManager.GetLogger(typeof(LogViewerController));
+ 
+        private ILogViewerManager _logViewerManager;
+        public ILogViewerManager LogViewerManager
+        {
+            get
+            {
+                return _logViewerManager ?? (_logViewerManager = LogViewerManagerFactory.CreateManager());
+            }
+        }
 
-        //TODO 
-        //private ILogViewerManager _logViewerManager;
-        //public ILogViewerManager LogViewerManager
-        //{
-        //    get
-        //    {
-        //        return _logViewerManager ?? (_logViewerManager = LogViewerManagerFactory.CreateManager());
-        //    }
-        //    set { _logViewerManager = value; }
-        //}
-
-        //TODO: add which select list items are chosen to model for GET/POST request  (GET would allow someone to send a link to coworker and get same data..)
-
-        public ActionResult Index(string lumberjack = null, string justBlogging = null)
+        public ActionResult Index(LogViewerParamModel model)
         {
             var selectedConnections = new List<string>();
-            if (lumberjack != null && (lumberjack.ToLowerInvariant() == "on" || lumberjack.ToLowerInvariant() == "true")) selectedConnections.Add("Lumberjack");
-            if (justBlogging != null && (justBlogging.ToLowerInvariant() == "on" || justBlogging.ToLowerInvariant() == "true")) selectedConnections.Add("JustBlogging");
+            if (model.Lumberjack != null && (model.Lumberjack.ToLowerInvariant() == "on" || model.Lumberjack.ToLowerInvariant() == "true")) selectedConnections.Add("Lumberjack");
+            if (model.JustBlogging != null && (model.JustBlogging.ToLowerInvariant() == "on" || model.JustBlogging.ToLowerInvariant() == "true")) selectedConnections.Add("JustBlogging");
 
             var connectionList = new List<string>();
             connectionList.AddRange(MvcApplication.ConnectionList.Select(pair => pair.Key));
 
+            IEnumerable<String> distinctLoggers = new List<String>();
 
             var allLogs = new List<SourcedAdoNetLog>();
             foreach (var conn in selectedConnections)
@@ -46,10 +43,15 @@ namespace Alertsense.Azure.Lumberjack.Controllers
                 var tableName = "Log";
                 var logViewerManager = LogViewerManagerFactory.CreateManager(null, null, connMap);
                 {
-                    //TODO: add information about which connMap the data belongs to to the list of allLogs..
                     allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
+                    //TODO: Make a new call to manager to get logs from the database using the search criteria.
+                    allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
+                    distinctLoggers = distinctLoggers.Concat(LogViewerManager.GetDistinctLoggersList(tableName));
                 }
             }
+
+            ViewBag.LogLevel = new SelectList(LogViewerManager.GetLogLevelList());
+            ViewBag.LoggerType = new SelectList(distinctLoggers.Distinct());
             return View(new LogViewerViewModel
             {
                 Logs = allLogs.OrderByDescending(x => x.Date),

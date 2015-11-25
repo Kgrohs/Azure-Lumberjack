@@ -11,11 +11,45 @@
         var checkMe = String.IsNullOrEmpty(Request[item]) ? "" : "checked";
         <div>
             @Html.Label(item)
-            <input name="@item" type="checkbox" @checkMe />
+            <input name="@item" type="checkbox" @checkMe/>
         </div>
     }
-    <div class="space-below"><input type="submit" value="Filter" /></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Log Level</th>
+                <th>Date Range</th>
+                <th>Logger Type</th>
+                <th>Thread</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DropDownList("LogLevel", "All")
+                </td>
+                <td>
+                    <label for="StartDate">Start</label>
+                    <input type="text" id="StartDate" name="StartDate" value="@Request.Params["StartDate"]">
+                    <br />
+                    <label for="EndDate">End</label>  &nbsp;
+                    <input type="text" id="EndDate" name="EndDate" value="@Request.Params["EndDate"]">
+                </td>
+                <td>
+                    @Html.DropDownList("LoggerType", "All")
+                </td>
+                <td>
+                    @Html.TextBox("Thread", Request.Params["Thread"])
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Filter" />
 </form>
+@using (Html.BeginForm("Index", "LogViewer", FormMethod.Get))
+{
+    <input type="submit" value="Clear" />
+}
 <table>
     <tr>
         <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Source) </th>

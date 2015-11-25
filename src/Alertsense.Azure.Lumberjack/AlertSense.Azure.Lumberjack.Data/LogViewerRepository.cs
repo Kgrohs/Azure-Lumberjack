@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -48,6 +49,20 @@ namespace AlertSense.Azure.Lumberjack.Data
             {
                 _log.Error(e.Message, e);
                 return new List<SourcedAdoNetLog>();
+            }
+        }
+
+        public IEnumerable<string> GetDistinctLoggersList(string tableName)
+        {
+            try
+            {
+                var qryResults = DbConnection.Query<string>("SELECT DISTINCT Logger FROM " + tableName).ToList();
+                return qryResults;
+            }
+            catch (SqlException e)
+            {
+                _log.Error(e.Message, e);
+                return new List<string>();
             }
         }
     }
