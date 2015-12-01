@@ -88,5 +88,11 @@ namespace AlertSense.Azure.Lumberjack.Services
             var logs = LogViewerRepo.GetDistinctLoggersList(tableName);
             return logs;
         }
+
+        public IEnumerable<SourcedAdoNetLog> FilteredLogs(string tableName, string conn, string logLevel, DateTime? startDate, DateTime? endDate, string loggerType, string thread)
+        {
+            var logs = LogViewerRepo.FilteredLogs(tableName, conn, logLevel, startDate, endDate, loggerType, thread);
+            return logs;
+        }
     }
 }

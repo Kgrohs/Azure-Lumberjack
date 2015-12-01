@@ -43,9 +43,9 @@ namespace Alertsense.Azure.Lumberjack.Controllers
                 var tableName = "Log";
                 var logViewerManager = LogViewerManagerFactory.CreateManager(null, null, connMap);
                 {
-                    allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
+                    //allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
                     //TODO: Make a new call to manager to get logs from the database using the search criteria.
-                    allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
+                    allLogs.AddRange(logViewerManager.FilteredLogs(tableName, conn, model.LogLevel, model.StartDate, model.EndDate, model.LoggerType, model.Thread));
                     distinctLoggers = distinctLoggers.Concat(LogViewerManager.GetDistinctLoggersList(tableName));
                 }
             }

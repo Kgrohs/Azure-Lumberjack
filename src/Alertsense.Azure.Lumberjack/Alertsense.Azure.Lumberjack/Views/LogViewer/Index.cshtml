@@ -5,14 +5,14 @@
 }
 <link href="@Url.Content("~/Content/LogViewer.css")" rel="stylesheet" type="text/css"/>
 <div class="endpoint text-center">Endpoints:</div>
-<form class="text-center">
+<form class="filter">
     @foreach (var item in Model.ConnectionList)
     {
-        var checkMe = String.IsNullOrEmpty(Request[item]) ? "" : "checked";
-        <div>
-            @Html.Label(item)
-            <input name="@item" type="checkbox" @checkMe/>
-        </div>
+        var checked = String.IsNullOrEmpty(Request[item]) ? "" : "checked";
+            <div>
+                @Html.Label(item)
+                <input name="@item" type="checkbox" @checked />
+            </div>
     }
     <table>
         <thead>
