@@ -73,7 +73,7 @@ namespace AlertSense.Azure.Lumberjack.Data
             string thread
             )
         {
-            var sql = "SELECT * FROM Log";
+            var sql = "SELECT * FROM " + tableName;
             sql += " WHERE Id > -1";
             if (!String.IsNullOrEmpty(logLevel)) sql += " AND Level = @loglevel";
             if (startDate.HasValue)

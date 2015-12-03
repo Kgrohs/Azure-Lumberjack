@@ -12,7 +12,9 @@ namespace Alertsense.Azure.Lumberjack.Models
         public DateTime? EndDate { get; set; }
         public string LoggerType { get; set; }
         public string Thread { get; set; }
+
         public string Lumberjack { get; set; }
         public string JustBlogging { get; set; }
+        public string LogsGoHereEmail { get; set; }
     }
 }

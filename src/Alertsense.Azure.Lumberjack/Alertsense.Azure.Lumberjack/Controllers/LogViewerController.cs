@@ -34,6 +34,7 @@ namespace Alertsense.Azure.Lumberjack.Controllers
 
             var connectionList = new List<string>();
             connectionList.AddRange(MvcApplication.ConnectionList.Select(pair => pair.Key));
+            connectionList.Add("LogsGoHereEmail");
 
             IEnumerable<String> distinctLoggers = new List<String>();
 
@@ -44,19 +45,20 @@ namespace Alertsense.Azure.Lumberjack.Controllers
                 var tableName = "Log";
                 var logViewerManager = LogViewerManagerFactory.CreateManager(null, null, connMap);
                 {
-                    //allLogs.AddRange(logViewerManager.GetAllLogs(tableName, conn));
-                    //TODO: Make a new call to manager to get logs from the database using the search criteria.
                     allLogs.AddRange(logViewerManager.FilteredLogs(tableName, conn, model.LogLevel, model.StartDate, model.EndDate, model.LoggerType, model.Thread));
                     distinctLoggers = distinctLoggers.Concat(LogViewerManager.GetDistinctLoggersList(tableName));
                 }
             }
-
-            var emailLogs = EmailHelper.GetLogEmails(50);
-            //TODO: Filter the logs by the parameters passed in
+            if (model.LogsGoHereEmail != null && (model.LogsGoHereEmail.ToLowerInvariant() == "on" || model.LogsGoHereEmail.ToLowerInvariant() == "true")) { 
+                var emailLogs = EmailHelper.ImapGetLogEmails(50);
+                allLogs.AddRange(emailLogs.FilterLogs(model));
+                distinctLoggers = distinctLoggers.Concat(emailLogs.Select(x => x.Logger).Distinct());
+            }
 
             ViewBag.LogLevel = new SelectList(LogViewerManager.GetLogLevelList());
-            ViewBag.LoggerType = new SelectList(distinctLoggers.Distinct());
-            return View(new LogViewerViewModel
+            ViewBag.LoggerType = new SelectList(distinctLoggers.Where(x => x != null).Distinct());
+
+            return View( new LogViewerViewModel
             {
                 Logs = allLogs.OrderByDescending(x => x.Date),
                 ConnectionList = connectionList

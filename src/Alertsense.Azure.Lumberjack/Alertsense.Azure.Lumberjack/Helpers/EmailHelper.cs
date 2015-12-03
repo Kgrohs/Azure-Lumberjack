@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Helpers;
 using Alertsense.Azure.Lumberjack.Controllers;
 using AlertSense.Azure.Lumberjack.Contracts.Entities;
+using ImapX.Enums;
 using log4net;
 using OpenPop.Mime;
 using OpenPop.Pop3;
@@ -15,11 +16,10 @@ namespace Alertsense.Azure.Lumberjack.Helpers
 {
     public static class EmailHelper
     {
-        static readonly ILog _log = LogManager.GetLogger(typeof(EmailHelper));
-
+        private static readonly ILog Log = LogManager.GetLogger(typeof(EmailHelper));
 
         //TODO: change the return type as needed
-        public static List<SourcedAdoNetLog> GetLogEmails(int numEmails = 50, string email = "logsgohere1@gmail.com", string pass = "Logging123")
+        public static List<SourcedAdoNetLog> PopGetLogEmails(int numEmails = 50, string email = "logsgohere1@gmail.com", string pass = "Logging123")
         {
             using (Pop3Client client = new Pop3Client())
             {
@@ -30,7 +30,8 @@ namespace Alertsense.Azure.Lumberjack.Helpers
                 client.Authenticate(email, pass, AuthenticationMethod.UsernameAndPassword);
 
                 // Get the number of messages in the inbox
-                int messageCount = client.GetMessageCount();
+                int messageCount = numEmails;
+                //int messageCount = client.GetMessageCount();
 
                 // We want to download all messages
                 List<SourcedAdoNetLog> allLogs = new List<SourcedAdoNetLog>();
@@ -63,12 +64,47 @@ namespace Alertsense.Azure.Lumberjack.Helpers
                     }
                     catch (Exception e)
                     {
-                        _log.Error(String.Format("Failed to parse an AdoNetLog out from the following email body:\n{0}", body), e);
+                        Log.Error(String.Format("Failed to parse an AdoNetLog out from the following email body:\n{0}", body), e);
                     }
 
                 }
                 return allLogs;
             }
+        }
+
+        public static List<SourcedAdoNetLog> ImapGetLogEmails(int numEmails = 50, string email = "logsgohere1@gmail.com",
+            string pass = "Logging123")
+        {
+            var client = new ImapX.ImapClient("imap.gmail.com", 993, true);
+            client.Connect();
+            client.Login(email, pass);
+            var messages = client.Folders["INBOX"].Search("ALL", MessageFetchMode.Body, numEmails);
+
+            List<SourcedAdoNetLog> allLogs = new List<SourcedAdoNetLog>();
+
+            foreach (var imapMessage in messages)
+            {
+                var message = imapMessage.Body.Text;
+                try
+                {
+                    var json = message.FromJson<AdoNetLog>();
+                    SourcedAdoNetLog srcLog = new SourcedAdoNetLog
+                    {
+                        Source = email,
+                        Date = json.Date,
+                        Level = json.Level,
+                        Logger = json.Logger,
+                        Message = json.Message,
+                        Exception = json.Exception,
+                    };
+                    allLogs.Add(srcLog);
+                }
+                catch (Exception e)
+                {
+                    Log.Error(String.Format("Failed to parse an AdoNetLog out from the following email body:\n{0}", message), e);
+                }
+            }
+            return allLogs;
         }
 
         public static string TrimAllWhitespace(this string str)

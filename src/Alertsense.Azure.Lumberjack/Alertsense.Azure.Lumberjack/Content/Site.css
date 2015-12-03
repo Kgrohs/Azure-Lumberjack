@@ -22,3 +22,26 @@ select,
 textarea {
     max-width: 280px;
 }
+body {
+    font-family:monospace
+}
+
+th, td, dd{
+    padding-top: 3px;
+    padding-right: 5px;
+    padding-left: 10px;
+}
+table {
+    
+    margin: 10px 0px;
+    font-size: 12px
+}
+
+.warn {
+    background-color: yellow;
+}
+
+input {
+    
+    margin-top: 2px;
+}

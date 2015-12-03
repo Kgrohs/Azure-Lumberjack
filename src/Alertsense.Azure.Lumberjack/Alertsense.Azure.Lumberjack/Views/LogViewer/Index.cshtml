@@ -3,24 +3,16 @@
 @{
     ViewBag.Title = "Index";
 }
-<link href="@Url.Content("~/Content/LogViewer.css")" rel="stylesheet" type="text/css"/>
-<div class="endpoint text-center">Endpoints:</div>
 <form class="filter">
-    @foreach (var item in Model.ConnectionList)
-    {
-        var checked = String.IsNullOrEmpty(Request[item]) ? "" : "checked";
-            <div>
-                @Html.Label(item)
-                <input name="@item" type="checkbox" @checked />
-            </div>
-    }
-    <table>
+    
+    <table width="100%">
         <thead>
             <tr>
                 <th>Log Level</th>
                 <th>Date Range</th>
                 <th>Logger Type</th>
                 <th>Thread</th>
+                <th>Endpoint(s)</th>
             </tr>
         </thead>
         <tbody>
@@ -41,39 +33,96 @@
                 <td>
                     @Html.TextBox("Thread", Request.Params["Thread"])
                 </td>
+                <td>
+                    @foreach (var item in Model.ConnectionList)
+                    {
+                        var check = String.IsNullOrEmpty(Request[item]) ? "" : "checked";
+                        <div>
+                            @Html.Label(item)
+                            <input name="@item" type="checkbox" @check />
+                        </div>
+                    }
+                </td>
             </tr>
         </tbody>
     </table>
-    <input type="submit" value="Filter" />
+    <input class="filter-input" type="submit" value="Filter" />
 </form>
 @using (Html.BeginForm("Index", "LogViewer", FormMethod.Get))
 {
     <input type="submit" value="Clear" />
 }
-<table>
+<table width="100%">
     <tr>
-        <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Source) </th>
-        <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Date) </th>
-        <th> @Html.LabelFor(x => x.Logs.FirstOrDefault().Message) </th>
+        <th width="10%">
+            <div>@Html.LabelFor(x => x.Logs.FirstOrDefault().Date)</div>
+            <div>@Html.LabelFor(x => x.Logs.FirstOrDefault().Level)</div>
+        </th>
+        <th width="76%">
+            <div>@Html.LabelFor(x => x.Logs.FirstOrDefault().Logger)</div>
+            <div>@Html.LabelFor(x => x.Logs.FirstOrDefault().Message)</div>
+        </th>
+        <th width="14%">
+            @Html.LabelFor(x => x.Logs.FirstOrDefault().Source)
+        </th>
     </tr>
     @foreach (var m in Model.Logs)
     {
         <tr>
-            <td>@m.Source</td>
-            <td>@m.Date</td>
             <td>
-                <div>
-                    Message:
-                    <pre>@m.Message</pre>
-                </div>
-                @if (!m.Exception.IsNullOrEmpty())
-                {
-                    <div>
-                        Exception:
-                        <pre>@m.Exception</pre>
-                    </div>
-                }
+                <div>@m.Date</div>
+                <div>@m.Level</div>
             </td>
+            <td>
+                <dl>
+                    <dt>Logger:</dt>
+                    <dd>@m.Logger</dd>
+
+                    <dt>Message:</dt>
+                    <dd>
+                        <pre>@m.Message</pre>
+                    </dd>
+
+
+                    @if (!m.Exception.IsNullOrEmpty())
+                    {
+                        <dt>Exception:</dt>
+                        <dd>
+                            <pre>@m.Exception</pre>
+                        </dd>
+                    }
+                </dl>
+            </td>
+            <td>@m.Source</td>
         </tr>
     }
 </table>
+
+<link href="@Url.Content("~/Content/LogViewer.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/jquery-1.11.4-ui.css")" rel="stylesheet" type="text/css">
+
+<script src="~/Scripts/jquery-1.11.0.js"></script>
+<script src="~/Scripts/jquery-time.js"></script>
+<script src="~/Scripts/jquery-ui-1.10.3.min.js"></script>
+<script src="~/Scripts/TimePicker.js"></script>
+<script>
+    $.noConflict();
+    jQuery(document).ready(function ($) {
+        var startDateTextBox = $('#StartDate');
+        var endDateTextBox = $('#EndDate');
+
+        $.timepicker.datetimeRange(
+            startDateTextBox,
+            endDateTextBox,
+            {
+                timeFormat: 'hh:mm:ss TT',
+                start: {
+                    currentText: 'Current'
+                },
+                end: {
+                    currentText: 'Current'
+                }
+            }
+        );
+    });
+</script>
