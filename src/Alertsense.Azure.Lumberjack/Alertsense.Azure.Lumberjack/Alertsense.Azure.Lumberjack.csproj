@@ -43,6 +43,9 @@
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="OpenPop">
+      <HintPath>..\packages\OpenPop.2.0.6.2\lib\net20\OpenPop.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\packages\ServiceStack.4.0.46\lib\net40\ServiceStack.dll</HintPath>
     </Reference>
@@ -183,6 +186,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LogViewerParamModel.cs" />

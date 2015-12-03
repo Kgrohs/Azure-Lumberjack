@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Alertsense.Azure.Lumberjack.Helpers;
 using Alertsense.Azure.Lumberjack.Models;
 using AlertSense.Azure.Lumberjack.Contracts.Entities;
 using AlertSense.Azure.Lumberjack.Contracts.Managers;
@@ -49,6 +50,9 @@ namespace Alertsense.Azure.Lumberjack.Controllers
                     distinctLoggers = distinctLoggers.Concat(LogViewerManager.GetDistinctLoggersList(tableName));
                 }
             }
+
+            var emailLogs = EmailHelper.GetLogEmails(50);
+            //TODO: Filter the logs by the parameters passed in
 
             ViewBag.LogLevel = new SelectList(LogViewerManager.GetLogLevelList());
             ViewBag.LoggerType = new SelectList(distinctLoggers.Distinct());
